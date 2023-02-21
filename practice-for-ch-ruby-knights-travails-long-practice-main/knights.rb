@@ -14,14 +14,18 @@ class KnightPathFinder
 
     def self.valid_moves(pos)
         x, y = pos
+        # deltas = [[2, 1], [-2, 1], [2, -1], [-2, -1], [1, 2], [-1, 2], [1, -2], [-1, -2]]
         new_pos = DELTAS.map { |(dx, dy)| [x + dx, y + dy] }
-        if new_pos.filter do |ele|
-            x , y = ele
-            if x < 8 || y < 8 &&  x >= 0 || y >= 0
+        new_pos.filter do |ele|
+            if ele[0] < 8 && ele[1] < 8 && ele[0] >= 0 && ele[1] >= 0
                 ele
             end
+            # if ele[0] <= 8 && ele[0] >= 0
+            #     ele[0]
+            # elsif ele[1] <= 8 & ele[1] >= 0
+            #     ele[1]
+            # end
         end
-
     end
 
     def new_move_positions(pos)
@@ -35,7 +39,7 @@ class KnightPathFinder
     end
 
     def build_move_tree
-
+        count = 0
         queue = [@root_node]
 
 
@@ -48,19 +52,17 @@ class KnightPathFinder
             #shovel to add nodes to queue
             #add thos to our queue
 
-
+            
             prev_nodes = queue.shift
             moves = new_move_positions(prev_nodes.value)
             moves.each do |pos|
+                count += 1
                 new_node = PolyTreeNode.new(pos, prev_nodes)
                 prev_nodes.add_child(new_node)
                 queue << new_node
             end
 
         end
-
-
-        
     end
 
 end
